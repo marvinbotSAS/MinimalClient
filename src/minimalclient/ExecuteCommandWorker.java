@@ -23,10 +23,12 @@ public class ExecuteCommandWorker extends javax.swing.SwingWorker<Void,Void> {
     String[] params;
 
     String script;
-    String[] names;
-    String[][]  columns;
+    ArrayList<String[]> names;
+    ArrayList<String[][]> columns;
     public ExecuteCommandWorker()
     {
+        this.names = new ArrayList<>();
+        this.columns = new ArrayList<>();
         Action = "none";
         logMsg = "";
     }
@@ -64,19 +66,25 @@ public class ExecuteCommandWorker extends javax.swing.SwingWorker<Void,Void> {
             Void result = get();
             _frame.updateLog(connector.getReceived());
             _frame.updateCommandSentLog(connector.RawScript);
+            
             // on recupere la reponse serveur sous forme de tableau
-            ArrayList<String> l = (ArrayList<String> ) connector.result._names.get(0);
-            names = new String[l.size()];
-            names = l.toArray(names);
-
-            columns = new String[names.length][(int) connector.result._columns.get(0) ];
-            int i = 0;
-            if ( names != null )
+            int m = 0;
+            for (Object _line : connector.result._lines) 
             {
-                for (String s : names )
+                ArrayList<String> l = (ArrayList<String> ) connector.result._names.get(m);
+                String[] tmp = new String[l.size()];
+                tmp = l.toArray(tmp);
+                names.add(tmp);
+                String[][] cols = new String[tmp.length][(int) connector.result._columns.get(m) ];
+                int k = 0;
+                if ( tmp.length != 0 )
                 {
-                    columns[i++] = connector.getDataByName(s, 0);
+                    for (String s : tmp )
+                    {
+                        cols[k++] = connector.getDataByName(s, 0);
+                    }
                 }
+                columns.add(cols);
             }
             _frame.GetResult(names,columns);
         } catch (InterruptedException ex) {

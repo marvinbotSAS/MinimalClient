@@ -6,18 +6,15 @@
 package minimalclient;
 
 import java.awt.Graphics;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import java.awt.event.ItemEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
 import mARC.Connector.Connector;
 
@@ -32,6 +29,8 @@ public class MainFrame extends javax.swing.JFrame
     JLabel picLabel;
     Connector connector;
     CopyToClipBoardActionListener copyToClipBoardActionListener;
+    ArrayList<String[]> _names;
+    ArrayList<String[][]> _columns;
     /**
      * Creates new form MainFrame
      */
@@ -97,6 +96,8 @@ public class MainFrame extends javax.swing.JFrame
         jPanel3 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         ResultjTable = new javax.swing.JTable();
+        jPanel7 = new javax.swing.JPanel();
+        LineNumberjComboBox = new javax.swing.JComboBox();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         ScriptjTextArea = new javax.swing.JTextArea();
@@ -138,7 +139,7 @@ public class MainFrame extends javax.swing.JFrame
             .addComponent(PortjTextField)
             .addComponent(IpjTextField)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(ConnectButton, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+                .addComponent(ConnectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(LedjPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1))
@@ -265,11 +266,38 @@ public class MainFrame extends javax.swing.JFrame
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        );
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Line #"));
+
+        LineNumberjComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                LineNumberjComboBoxItemStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(LineNumberjComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(LineNumberjComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -279,12 +307,18 @@ public class MainFrame extends javax.swing.JFrame
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Script"));
@@ -306,7 +340,7 @@ public class MainFrame extends javax.swing.JFrame
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane4)
-            .addComponent(SendScriptbutton, javax.swing.GroupLayout.DEFAULT_SIZE, 769, Short.MAX_VALUE)
+            .addComponent(SendScriptbutton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -439,6 +473,26 @@ public class MainFrame extends javax.swing.JFrame
         this.ResultjTable.setToolTipText("select rows and columns and press Ctrl+C to copy to clipboard.");
     }//GEN-LAST:event_jPanel3MouseMoved
 
+    private void LineNumberjComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_LineNumberjComboBoxItemStateChanged
+   
+        if ( evt.getStateChange() == ItemEvent.DESELECTED )
+        {
+            return;
+        }
+        String line = (String) evt.getItem();
+        String[] names = _names.get(Integer.valueOf(line));
+        String[][] columns = _columns.get(Integer.valueOf(line));
+        
+        int i = 0;
+        DefaultTableModel m = (DefaultTableModel) ResultjTable.getModel();
+        m.setRowCount(0);
+        m.setColumnCount(0);
+        for (String s : names)
+        {
+          m.addColumn(s, columns[i++]);
+        }
+    }//GEN-LAST:event_LineNumberjComboBoxItemStateChanged
+
     public void updateLog(String msg)
     {        if (msg == null || msg.isEmpty()) {
             return;
@@ -459,21 +513,24 @@ public class MainFrame extends javax.swing.JFrame
         this.SentjTextArea.setCaretPosition(0);
     }
     
-    public void GetResult(String[] names, String[][] columns)
+    public void GetResult(ArrayList<String[]> names, ArrayList<String[][]> columns)
     {
 
         DefaultTableModel m = (DefaultTableModel) ResultjTable.getModel();
         m.setColumnCount(0);
         m.setRowCount(0);
-        if ( names == null || names.length == 0 )
+        this.LineNumberjComboBox.removeAllItems();
+        _names = names;
+        _columns = columns;
+        if (  names.isEmpty() )
         {
             return;
         }
-        int i = 0;
-        for (String s : names)
+        for (int k = 0;k < names.size();k++)
         {
-          m.addColumn(s, columns[i++]);
+            this.LineNumberjComboBox.addItem(String.valueOf(k));
         }
+        this.LineNumberjComboBox.setSelectedIndex(0);
 
     }
     /**
@@ -515,6 +572,7 @@ public class MainFrame extends javax.swing.JFrame
     private java.awt.Button ConnectButton;
     private javax.swing.JTextField IpjTextField;
     private javax.swing.JPanel LedjPanel;
+    private javax.swing.JComboBox LineNumberjComboBox;
     private javax.swing.JPanel MainjPanel;
     private javax.swing.JTextField PortjTextField;
     private javax.swing.JTable ResultjTable;
@@ -530,6 +588,7 @@ public class MainFrame extends javax.swing.JFrame
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
